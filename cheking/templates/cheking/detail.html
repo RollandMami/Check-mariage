@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        <div class="card p-4 shadow-sm">
+            {% if invite %}
+            <h1 class="card-title text-center">{{ invite.nom }} {{ invite.prenom }}</h1>
+            <hr>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><strong>Ville :</strong> {{ invite.ville }}</li>
+                <li class="list-group-item"><strong>Code QR :</strong> {{ invite.invitation }}</li>
+                <li class="list-group-item"><strong>Table assignée :</strong> {{ invite.table_assigne.numero_table }}</li>
+                <li class="list-group-item"><strong>Nombre de personnes :</strong> {{ invite.nombre }}</li>
+                <li class="list-group-item"><strong>Présence :</strong> {% if invite.est_present %}Oui{% else %}Non{% endif %}</li>
+            </ul>
+            {% else %}
+            <div class="alert alert-warning text-center" role="alert">
+                Aucun invité trouvé.
+            </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock%}

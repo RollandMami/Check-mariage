@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container border mt-3">
+    <h1>Liste des Invités</h1>
+    <div class="overflow-auto" style="max-height: 400px;">
+        <ul>
+        {% for invite in invites %}
+            <li><a href="{% url 'cheking:detail' invite.id %}">☺</a>{{ invite.nom }} {{ invite.prenom }}</li>
+        {% empty %}
+            <li>Aucun invité trouvé.</li>
+        {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

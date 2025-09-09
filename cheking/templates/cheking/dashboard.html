@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Tableau de bord - Mon Événement{% endblock %}
+
+{% block content %}
+<div class="container py-4 mb-5 border">
+    <div class="row align-items-center mb-4">
+        <div class="col-6 text-start text-muted">
+            <small>SAMEDI 20 SEPTEMBRE 2025</small>
+        </div>
+        <div class="col-6 text-end text-muted">
+            <small>MARIAGE : ROLLAND & TSIORY</small>
+        </div>
+    </div>
+
+    <div class="row text-center mb-5">
+        <div class="col-12">
+            <div class="rounded-circle-progress" style="--progress: 76.6%;">
+                <div class="rounded-circle-progress-bar"></div>
+                <div class="rounded-circle-progress-text">115/150</div>
+            </div>
+            <p class="mt-2 text-muted">INVITÉS PRÉSENTS</p>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-6">
+            <div class="category-card shadow-sm border border-primary-subtle">
+                <i class="fas fa-person text-primary"></i>
+                <h6 class="mb-0">Invités du Mari</h6>
+                <span>35/45</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="category-card shadow-sm border border-warning-subtle">
+                <i class="fas fa-person-dress text-warning"></i>
+                <h6 class="mb-0">Invités de la Mariée</h6>
+                <span>40/50</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="category-card shadow-sm border border-success-subtle">
+                <i class="fas fa-handshake text-success"></i>
+                <h6 class="mb-0">Amis & Collègues</h6>
+                <span>20/30</span>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="category-card shadow-sm border border-info-subtle">
+                <i class="fas fa-church text-info"></i>
+                <h6 class="mb-0">Église</h6>
+                <span>15/20</span>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="category-card shadow-sm border border-danger-subtle">
+                <i class="fas fa-people-carry-box text-danger"></i>
+                <h6 class="mb-0">Staff & Logistique</h6>
+                <span>5/5</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row d-flex justify-content-center mt-4 mb-3">
+        <div class="col-12 d-flex justify-content-evenly">
+            <button type="button" class="btn btn-primary btn-lg rounded-pill" data-bs-toggle="modal" data-bs-target="#qrScannerModal">
+                <i class="fas fa-qrcode me-2"></i>Scanner un QR Code
+            </button>
+
+            <div class="modal fade" id="qrScannerModal" tabindex="-1" aria-labelledby="qrScannerModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="qrScannerModalLabel">Scanner un code QR</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div id="qr-reader" style="width: 100%;"></div>
+                            <div id="result-container" class="mt-3" style="display:none;">
+                                <p>Code scanné : <span id="scanned-code" class="fw-bold text-success"></span></p>
+                                <a id="send-button" href="#" class="btn btn-success mt-2">Envoyer</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <a href="{% url 'cheking:search' %}" class="btn btn-outline-secondary btn-lg rounded-pill" style="min-width: 45%;">
+                    <i class="fas fa-search me-2"></i>Rechercher un invité
+                </a>
+            </div>
+    </div>
+</div>
+
+<style>
+    .rounded-circle-progress {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin: auto;
+    }
+    .rounded-circle-progress-bar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: conic-gradient(#0dcaf0 var(--progress), #e9ecef 0deg);
+    }
+    .rounded-circle-progress-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    .category-card {
+        background-color: #f8f9fa;
+        border-radius: 1rem;
+        padding: 1rem;
+    }
+    .category-card i {
+        font-size: 1.5rem;
+        margin-right: 0.5rem;
+    }
+    .category-card span {
+        font-size: 0.9rem;
+    }
+</style>
+{% endblock %}

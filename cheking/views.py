@@ -4,20 +4,21 @@ from django.contrib import messages
 from .form import CustomAuthenticationForm  # Importez votre formulaire
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-
+from .models import Invite
+from django.shortcuts import get_list_or_404, get_object_or_404
 
 # Create your views here.
-@login_required
 def index(request):
     return render(request, "cheking/index.html")
 
-
+@login_required
 def dashboard(request):
     return render(request, 'cheking/dashboard.html')
 
 def search(request):
     # cette vue affiche la liste des invités
-    return render(request, 'cheking/invitelistes.html')
+    invites = get_list_or_404(Invite)
+    return render(request, 'cheking/search_invites.html', {'invites': invites})
 
 def scanQr(request):
     # cette vue permet de scanner le QR code
@@ -25,7 +26,8 @@ def scanQr(request):
 
 def detail(request, code):
     # cette vue affiche le détail d'un invité
-    return render(request, 'cheking/detail.html')
+    invite = get_object_or_404(Invite, pk=code)
+    return render(request, 'cheking/detail.html', context={"invite":invite})
 
 def login_view(request):
     if request.method == 'POST':
@@ -36,7 +38,7 @@ def login_view(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('cheking:index') # Remplacez 'index' par le nom de votre page d'accueil
+                return redirect('cheking:dashboard') # Remplacez 'index' par le nom de votre page d'accueil
             else:
                 messages.error(request, "Nom d'utilisateur ou mot de passe incorrect.")
     else:
