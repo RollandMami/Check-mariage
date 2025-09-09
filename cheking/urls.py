@@ -24,7 +24,7 @@ urlpatterns = [
     path('detail/<str:code>/', views.detail, name="detail"),
     # Page de connexion personnalisée
     path('login/', views.login_view, name="login"),
-    path('logout/', auth_views.LogoutView.as_view(next_page="cheking:login"), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page="cheking:index"), name='logout'),
     path('api/', include(router.urls)),
 
 ]
