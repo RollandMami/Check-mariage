@@ -13,11 +13,39 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    return render(request, 'cheking/dashboard.html')
+    invites = get_list_or_404(Invite)
+    nombre_invite = 0
+    invite_marie = 0
+    invite_mariee = 0
+    invite_eglise = 0
+    invite_ami = 0
+    invite_staff = 0
+
+    for elm in invites:
+        nombre_invite += elm.nombre
+        if elm.lien_amitie == "MARIE":
+            invite_marie += elm.nombre
+        elif elm.lien_amitie == "mariee":
+            invite_mariee += elm.nombre
+        elif elm.lien_amitie == "eglise":
+            invite_eglise += elm.nombre
+        elif elm.lien_amitie == "ami":
+            invite_ami += elm.nombre
+        elif elm.lien_amitie == "staff":
+            invite_staff += elm.nombre
+    return render(request, 'cheking/dashboard.html', {
+        'invites': invites,
+        'nombre_invite': nombre_invite,
+        'invite_marie': invite_marie,
+        'invite_mariee': invite_mariee,
+        'invite_eglise': invite_eglise,
+        'invite_ami': invite_ami,
+        'invite_staff': invite_staff})
 
 def search(request):
     # cette vue affiche la liste des invités
     invites = get_list_or_404(Invite)
+
     return render(request, 'cheking/search_invites.html', {'invites': invites})
 
 def scanQr(request):

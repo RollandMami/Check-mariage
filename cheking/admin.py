@@ -9,9 +9,13 @@ class QrAdmin(admin.ModelAdmin):
     list_filter = ("code",)
 
 class InviteAdmin(admin.ModelAdmin):
-    list_display = ("nom", "invitation", "nombre", "ville", "quartier","est_present", "attente_de_validation")
+    list_display = ("nom", "invitation", "nombre","get_table", "ville", "quartier","est_present", "attente_de_validation")
     search_fields = ("nom", "invitation__code", "ville__nom", "quartier__nom")
     list_filter = ("est_present", "attente_de_validation", "ville", "quartier")
+
+    def get_table(self, obj):
+        return obj.invitation.table if obj.invitation and obj.invitation.table else "-"
+    get_table.short_description = "Table assignée"
 
 class CustomAdminSite(admin.AdminSite):
     site_url = '/cheking/'  # Définit le lien du bouton "View site"
