@@ -7,7 +7,10 @@ from django.urls import reverse
 from .models import Invite
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.db.models import Sum
-
+import json
+from django.http import JsonResponse
+from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt 
 
 # Create your views here.
 def index(request):
@@ -148,4 +151,24 @@ def update_invite(request, code, nom):
 
     return redirect('cheking:dashboard')
 
-
+@require_POST
+def maj_invite(request, invite_id):
+    try:
+        data = json.loads(request.body)
+        est_present = data.get('est_present')
+        
+        # Récupère l'invité ou renvoie une erreur 404
+        invite = get_object_or_404(Invite, pk=invite_id)
+        
+        # Met à jour le champ est_present
+        invite.est_present = est_present
+        invite.save()
+        
+        return JsonResponse({'status': 'success'})
+    
+    except json.JSONDecodeError:
+        return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
+    except Invite.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Invite not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)

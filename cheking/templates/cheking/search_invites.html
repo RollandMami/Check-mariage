@@ -30,7 +30,7 @@
             <i class="fas fa-link me-2"></i>Lien d'amitié
         </button>
     </div>
-
+        {% csrf_token %}
     {# Liste des invités #}
     <div class="guest-list-container overflow-auto" style="max-height: calc(100vh - 400px);"> {# Hauteur ajustée pour mobile #}
         <ul class="list-group list-group-flush" id="guestList">
@@ -42,23 +42,29 @@
                     data-friendship="{{ invite.lien_amitie.lien|default_if_none:'' }}">
                     
                     <a href="{% url 'cheking:detail' invite.id %}" class="text-decoration-none d-flex align-items-center flex-grow-1 text-dark">
-                        {% if invite.profile_picture %}
-                            <img src="{{ invite.profile_picture.url }}" class="rounded-circle me-3" alt="Photo de {{ invite.nom }}" style="width: 40px; height: 40px; object-fit: cover;">
-                        {% else %}
-                            <i class="fas fa-user-circle fa-2x me-3 text-muted"></i>
-                        {% endif %}
+                        <i class="fas fa-user-circle fa-2x me-3 text-muted"></i>
                         
                         <div>
-                            <h5 class="mb-0">{{ invite.nom }} {{ invite.prenom }}</h5>
+                            <h5 class="mb-0">{{ invite.nom }}</h5>
                             <small class="text-muted">{{ invite.invitation.table|default:"Table : Non assignée" }}</small>
                         </div>
                     </a>
                     
-                    {% if invite.est_present %}
-                        <span class="badge bg-success rounded-pill p-2"><i class="fas fa-check"></i></span>
-                    {% else %}
-                        <span class="badge bg-danger rounded-pill p-2"><i class="fas fa-times"></i></span>
-                    {% endif %}
+                    <div class="d-flex align-items-center guest-controls">
+                        <div class="form-check form-switch me-3">
+                            <input class="form-check-input presence-switch" 
+                                type="checkbox" 
+                                role="switch" 
+                                id="presence-switch-{{ invite.id }}" 
+                                data-invite-id="{{ invite.id }}"
+                                {% if invite.est_present %}checked{% endif %}>
+                        </div>
+
+                        <button class="btn btn-success btn-sm save-btn" 
+                                data-invite-id="{{ invite.id }}">
+                            <i class="fas fa-save me-1"></i>
+                        </button>
+                    </div>
                 </li>
             {% empty %}
                 <li class="list-group-item text-center text-muted">Aucun invité trouvé.</li>

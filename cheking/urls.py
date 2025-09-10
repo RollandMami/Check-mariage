@@ -30,5 +30,6 @@ urlpatterns = [
     # puisqu'on la redirige vers la vue 'search'
     path('process_qr/<str:code>/', views.process_qr, name="process_qr"),
     path('update_invite/<str:code>/<str:nom>/', views.update_invite, name="update_invite"),
+    path('maj_invite/<int:invite_id>/', views.maj_invite, name='maj_invite'),
 
 ]
