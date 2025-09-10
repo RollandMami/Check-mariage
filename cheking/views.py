@@ -73,6 +73,13 @@ def dashboard(request):
     
     return render(request, 'cheking/dashboard.html', context)
 
+def get_tables(liste):
+    tables = set()
+    for invite in liste:
+        if invite.invitation and invite.invitation.table:
+            tables.add(invite.invitation.table.nom)
+    return sorted(tables)
+
 def search(request):
     # Cette vue gère la recherche et l'affichage des invités
     code = request.GET.get('code', None)
@@ -84,8 +91,15 @@ def search(request):
         # Sinon, on affiche tous les invités
         invites = Invite.objects.all()
 
+    tables = get_tables(invites)
+    if not invites.exists():
+        messages.error(request, "Aucun invité trouvé avec ce code.")
+
+    context= {
+        'tables': tables,
+        'invites': invites,}
     # Le template peut maintenant afficher la liste filtrée ou la liste complète
-    return render(request, 'cheking/search_invites.html', {'invites': invites})
+    return render(request, 'cheking/search_invites.html', context)
 
 def process_qr(request, code):
     search_url = reverse('cheking:search')
