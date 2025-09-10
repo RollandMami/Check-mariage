@@ -1,18 +1,42 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+    <div class="container mt-2">
         <div class="card p-4 shadow-sm">
             {% if invite %}
             <h1 class="card-title text-center">{{ invite.nom }} {{ invite.prenom }}</h1>
             <hr>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><strong>Ville :</strong> {{ invite.ville }}</li>
-                <li class="list-group-item"><strong>Code QR :</strong> {{ invite.invitation }}</li>
-                <li class="list-group-item"><strong>Table assignée :</strong> {{ invite.invitation.table }}</li>
-                <li class="list-group-item"><strong>Nombre de personnes :</strong> {{ invite.nombre }}</li>
-                <li class="list-group-item"><strong>Présence :</strong> {% if invite.est_present %}Oui{% else %}Non{% endif %}</li>
+                <li class="list-group-item"><strong><i class="fas fa-map-marked-alt"></i> Ville :</strong> {{ invite.ville }}</li>
+                <li class="list-group-item"><strong><i class="fas fa-qrcode"></i> Code QR :</strong> {{ invite.invitation }}</li>
+                <li class="list-group-item"><strong><i class="fas fa-utensils"></i> Table assignée :</strong> {{ invite.invitation.table|cut:"Table "}}</li>
+                <li class="list-group-item"><strong>Nombre invité :</strong> {{ invite.nombre }}</li>
+                <li class="list-group-item"><strong><i class="fas fa-check-circle"></i> Présence :</strong> {% if invite.est_present %}Oui{% else %}Non{% endif %}</li>
             </ul>
+
+            <div class="mt-4 pt-4 border-top mb-5">
+                <h3 class="text-center text-secondary">Mise à jour</h3>
+                <form action="#" method="post">{#{% url 'cheking:update_invite' code=invite.invitation.code %}#}
+                    {% csrf_token %}
+                    <div class="mb-3 text-center">
+                        <label for="nombre_present" class="form-label fw-bold">Nombre présent :</label>
+                        <input type="number" name="nombre" value="{{ invite.nombre }}" class="form-control d-inline-block w-25" min="1">
+                    </div>
+                    <div class="mb-3 text-center">
+                        <label for="est_present" class="form-label fw-bold">Présence :</label>
+                        <div class="form-check form-switch d-inline-block ms-3">
+                            <input class="form-check-input" type="checkbox" role="switch" name="est_present" {% if invite.est_present %}checked{% endif %}>
+                        </div>
+                    </div>
+                    <div class="text-center mt-4 mb-2">
+                        <button type="submit" class="btn btn-success me-2">Envoyer</button>
+                        <button type="reset" class="btn btn-warning me-2">Réinitialiser</button>
+                        <a href="{% url 'cheking:dashboard' %}" class="btn btn-danger">Annuler</a>
+                    </div>
+                </form>
+            </div>
+            
             {% else %}
             <div class="alert alert-warning text-center" role="alert">
                 Aucun invité trouvé.
@@ -20,5 +44,4 @@
             {% endif %}
         </div>
     </div>
-
-{% endblock%}
+{% endblock %}

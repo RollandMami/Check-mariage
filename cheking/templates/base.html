@@ -70,7 +70,9 @@
                 resultContainer.style.display = 'block';
 
                 scannedCodeSpan.textContent = decodedText;
-                sendButton.href = `/invites/${decodedText}/`; 
+                const baseUrl = sendButton.dataset.url;
+                const finalUrl = baseUrl.replace("___",decodedText);
+                sendButton.href = finalUrl;
             }).catch(err => {
                 console.error("Erreur lors de l'arrêt du scanner:", err);
             });

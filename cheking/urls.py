@@ -19,12 +19,14 @@ router.register(r'invites', InviteViewSet)
 urlpatterns = [
     path('', views.index, name="index"),
     path('dashboard/', views.dashboard, name="dashboard"),
-    path('search/', views.search, name="search"),  
+    # URL de la page de recherche. On ne définit pas de paramètre ici
+    # car les filtres seront passés via les paramètres de requête (?code=...)
+    path('search/', views.search, name="search"),
     path('scan/', views.scanQr, name="scan"),
     path('detail/<str:code>/', views.detail, name="detail"),
-    # Page de connexion personnalisée
     path('login/', views.login_view, name="login"),
     path('logout/', auth_views.LogoutView.as_view(next_page="cheking:index"), name='logout'),
-    path('api/', include(router.urls)),
-
+    # L'URL de process_qr n'a pas besoin d'être un paramètre
+    # puisqu'on la redirige vers la vue 'search'
+    path('process_qr/<str:code>/', views.process_qr, name="process_qr"),
 ]
