@@ -29,4 +29,6 @@ urlpatterns = [
     # L'URL de process_qr n'a pas besoin d'être un paramètre
     # puisqu'on la redirige vers la vue 'search'
     path('process_qr/<str:code>/', views.process_qr, name="process_qr"),
+    path('update_invite/<str:code>/<str:nom>/', views.update_invite, name="update_invite"),
+
 ]

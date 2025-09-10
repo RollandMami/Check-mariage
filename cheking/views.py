@@ -119,3 +119,19 @@ def login_view(request):
 
     return render(request, 'cheking/login.html', {'form': form})
 
+def update_invite(request, code, nom):
+    invite = get_object_or_404(Invite, nom=nom, invitation__code=code)
+    presence = request.POST.get("est_present")
+    nombre = int(request.POST.get("nombre"))
+
+    invite.nombre = nombre
+    if presence == 'on':
+        invite.est_present = True
+    else:
+        invite.est_present = False
+    
+    invite.save()
+
+    return redirect('cheking:dashboard')
+
+
