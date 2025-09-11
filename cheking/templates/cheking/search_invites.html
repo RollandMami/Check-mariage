@@ -17,13 +17,13 @@
 
     {# Boutons de filtre #}
     <div class="d-flex flex-wrap gap-2 mb-4">
-        <button class="btn btn-outline-secondary filter-btn" data-filter-type="table" onclick="console.log('{{ tables }}')">
+        <button class="btn btn-outline-secondary filter-btn" data-filter-type="table" id="tableButton">
             <i class="fas fa-chair me-2"></i>Table
         </button>
         <button class="btn btn-outline-secondary filter-btn" data-filter-type="location">
             <i class="fas fa-map-marker-alt me-2"></i>Lieu
         </button>
-        <button class="btn btn-outline-primary filter-btn active" data-filter-type="Abscent">
+        <button class="btn btn-outline-primary filter-btn active" data-filter-type="Abscent" id="abscentButton">
             <i class="fas fa-user me-2"></i>Abscent
         </button>
         <button class="btn btn-outline-secondary filter-btn" data-filter-type="friendship">
@@ -46,7 +46,7 @@
                         
                         <div>
                             <h5 class="mb-0 guest-name">{{ invite.nom }}</h5>
-                            <small class="text-muted">{{ invite.invitation.table|default:"Table : Non assignée" }}</small>
+                            <small class="text-muted guest-table">{{ invite.invitation.table|default:"Table : Non assignée" }}</small>
                         </div>
                     </a>
                     
