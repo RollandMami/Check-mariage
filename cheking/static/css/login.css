@@ -1,85 +1,85 @@
 body {
-            background-color: #A2C4F7FF;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-image: url("{% static 'images/bg_login.png' %}"); /* Ajustez le chemin */
-            background-size: cover;
-            background-position: center;
-            color: #495057;
-        }
-        .login-card {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 3rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
-        }
-        .login-title {
-            font-family: 'sans serif', serif;
-            font-size: 2.5rem;
-            font-style: italic;
-            margin-bottom: 2rem;
-            color: #6c757d;
-        }
-        .form-control {
-            border-radius: 50px;
-            height: 50px;
-            padding-left: 20px;
-            background-color: #e9ecef;
-            border: none;
-        }
-        .btn-custom {
-            border-radius: 50px;
-            padding: 12px 0;
-            width: 100%;
-            font-size: 1.1rem;
-            font-weight: bold;
-            background: linear-gradient(135deg, #1e90ff, #00bfff);
-            border: none;
-            color: white;
-            transition: all 0.3s ease;
-        }
-        .btn-custom:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            background: linear-gradient(135deg, #00bfff, #1e90ff);
-        }
-        .form-group {
-            margin-bottom: 1.5rem;
-            text-align: left;
-        }
-        .logo {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #6c757d;
-        }
-        .messages {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            list-style: none;
-            padding: 0;
-            width: 80%;
-        }
-        .messages li {
-            padding: 10px;
-            border-radius: 5px;
-            color: #fff;
-        }
-        .messages .error {
-            background-color: #dc3545;
-        }
-        .messages .success {
-            background-color: #28a745;
-        }
-        @media (max-width: 768px) {
+    background-color: #A2C4F7FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-image: url("{% static 'images/bg_login.png' %}"); /* Ajustez le chemin */
+    background-size: cover;
+    background-position: center;
+    color: #495057;
+}
+.login-card {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+}
+.login-title {
+    font-family: 'sans serif', serif;
+    font-size: 2.5rem;
+    font-style: italic;
+    margin-bottom: 2rem;
+    color: #6c757d;
+}
+.form-control {
+    border-radius: 50px;
+    height: 50px;
+    padding-left: 20px;
+    background-color: #e9ecef;
+    border: none;
+}
+.btn-custom {
+    border-radius: 50px;
+    padding: 12px 0;
+    width: 100%;
+    font-size: 1.1rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #1e90ff, #00bfff);
+    border: none;
+    color: white;
+    transition: all 0.3s ease;
+}
+.btn-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #00bfff, #1e90ff);
+}
+.form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+.logo {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    color: #6c757d;
+}
+.messages {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    list-style: none;
+    padding: 0;
+    width: 80%;
+}
+.messages li {
+    padding: 10px;
+    border-radius: 5px;
+    color: #fff;
+}
+.messages .error {
+    background-color: #dc3545;
+}
+.messages .success {
+    background-color: #28a745;
+}
+@media (max-width: 768px) {
     .login-card {
         /* Pour les écrans de téléphone, le cadre prend 80% de la largeur */
         width: 95%;

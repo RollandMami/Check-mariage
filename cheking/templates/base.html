@@ -52,6 +52,9 @@
     <footer class="bg-dark text-white p-3 text-center mt-5 fixed-bottom">
         <p>&copy; {% now "Y" %} N & T. Tous droits réservés.</p>
     </footer>
+
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+    {% block extra_js %}
+    {% endblock %}
 </body>
 </html>
