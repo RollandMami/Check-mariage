@@ -23,12 +23,33 @@
         <button class="btn btn-outline-secondary filter-btn" data-filter-type="location" id="locationButton">
             <i class="fas fa-map-marker-alt me-2"></i>Lieu
         </button>
-        <button class="btn btn-outline-primary filter-btn active" data-filter-type="Abscent" id="abscentButton">
-            <i class="fas fa-user me-2"></i>Abscent
-        </button>
-        <button class="btn btn-outline-secondary filter-btn" data-filter-type="friendship" id="friendshipButton">
-            <i class="fas fa-link me-2"></i>Lien d'amitié
-        </button>
+
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle filter-btn" data-filter-type="Abscent" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-user me-2"></i>Abscent
+            </button>
+            <ul class="dropdown-menu">
+                <li><button class="dropdown-item" type="button" id="abscentPresentButton"><i class="fa-solid fa-check"></i> Present</button></li>
+                <li><button class="dropdown-item" type="button" id="abscentAbscentButton"><i class="fa-solid fa-xmark"></i> Abscent</button></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button class="dropdown-item" type="button" id="abscentTousButton"><i class="fa-solid fa-users"></i>Tous</button></li>
+            </ul>
+        </div>
+
+        <div class="dropdown">
+            <button class="btn btn-outline-secondary dropdown-toggle filter-btn" data-filter-type="friendship" id="friendshipButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-link me-2"></i>Lien d'amitié
+            </button>
+            <ul class="dropdown-menu">
+                <li><button class="dropdown-item" type="button" id="abscentPresentButton"><i class="fa-solid fa-person"></i> HOMME</button></li>
+                <li><button class="dropdown-item" type="button" id="abscentAbscentButton"><i class="fa-solid fa-person-dress"></i> FEMME</button></li>
+                <li><button class="dropdown-item" type="button" id="abscentAbscentButton"><i class="fa-solid fa-handshake"></i> AMIS-COLLEGUES</button></li>
+                <li><button class="dropdown-item" type="button" id="abscentAbscentButton"><i class="fa-solid fa-user-tie"></i> STAFF</button></li>
+                <li><button class="dropdown-item" type="button" id="abscentAbscentButton"><i class="fa-solid fa-church"></i> EGLISE</button></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><button class="dropdown-item" type="button" id="abscentTousButton"><i class="fa-solid fa-users"></i>Tous</button></li>
+            </ul>
+        </div>
     </div>
         {% csrf_token %}
     {# Liste des invités #}

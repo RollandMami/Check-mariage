@@ -27,35 +27,35 @@
     </div>
 
     <div class="row g-3 mb-4">
-        <div class="col-6">
+        <div class="col-6" id="guestCardhusband" data-url="{% url 'cheking:dashfilter' 'marie' %}">
             <div class="category-card shadow-sm border border-primary-subtle">
                 <i class="fas fa-person text-primary"></i>
                 <h6 class="mb-0">Invités du Mari</h6>
                 <span>{{invite_marie_present}}/{{invite_marie}}</span>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6" id="guestCardwife" data-url="{% url 'cheking:dashfilter' 'mariee' %}">
             <div class="category-card shadow-sm border border-warning-subtle">
                 <i class="fas fa-person-dress text-warning"></i>
                 <h6 class="mb-0">Invités de la Mariée</h6>
                 <span>{{ invite_mariee }}/{{ invite_mariee }}</span>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6" id="guestCardfriend" data-url="{% url 'cheking:dashfilter' 'amis - collegues' %}">
             <div class="category-card shadow-sm border border-success-subtle">
                 <i class="fas fa-handshake text-success"></i>
                 <h6 class="mb-0">Amis & Collègues</h6>
                 <span>{{ invite_ami_present }}/{{ invite_ami }}</span>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-6" id="guestCardchurch" data-url="{% url 'cheking:dashfilter' 'eglise' %}">
             <div class="category-card shadow-sm border border-info-subtle">
                 <i class="fas fa-church text-info"></i>
                 <h6 class="mb-0">Église</h6>
                 <span>{{ invite_eglise_present }}/{{ invite_eglise }}</span>
             </div>
         </div>
-        <div class="col-12">
+        <div class="col-12" id="guestCardstaff" data-url="{% url 'cheking:dashfilter' 'staff - logistics' %}">
             <div class="category-card shadow-sm border border-danger-subtle">
                 <i class="fas fa-people-carry-box text-danger"></i>
                 <h6 class="mb-0">Staff & Logistique</h6>
@@ -93,4 +93,8 @@
             </div>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/dashboard.js' %}"></script>
 {% endblock %}

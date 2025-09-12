@@ -172,3 +172,13 @@ def maj_invite(request, invite_id):
         return JsonResponse({'status': 'error', 'message': 'Invite not found'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+
+def dashfilter(request, filtre):
+    invites = Invite.objects.filter(lien_amitie__lien=str(filtre).upper())
+    tables = get_tables(invites)
+    context= {
+        'tables': tables,
+        'invites': invites,
+    }
+    return render(request, 'cheking/search_invites.html', context)
