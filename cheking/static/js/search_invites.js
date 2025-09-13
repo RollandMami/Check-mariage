@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
 
     // --- Variables et sélections DOM initiales ---
     const searchInput = document.getElementById('guestSearchInput');
@@ -6,15 +6,28 @@ document.addEventListener("DOMContentLoaded", function() {
     const presenceDropdownMenu = document.getElementById('presenceDropdownMenu');
     const abscentButton = document.getElementById("abscentButton");
     const items = document.querySelectorAll('#guestList li');
-    
+
     const friendshipDropdownMenu = document.querySelector('#friendshipButton + .dropdown-menu');
     const friendshipButton = document.getElementById('friendshipButton');
+
+    // variables pour les boutton et leurs valeurs par défaut ;
+    // Bouton de présence
+    const defaultPresence = {
+        text: 'Presence',
+        iconClass: 'fas fa-user me-2'
+    };
+    // Bouton lien d'amitié
+    const defaultFriendship = {
+        text: 'Lien d\'amitié',
+        iconClass: 'fas fa-link me-2'
+    };
     // État du filtre global
     const filters = {
         searchTerm: '',
         presence: 'all', // 'all', 'present', 'absent'
         friendship: 'all', // 'all', 'MARIEE', 'MARIE', 'AMIS - COLLEGUES', 'EGLISE', 'STAFF - LOGISTICS'
     };
+
 
     // --- Fonctions utilitaires ---
 
@@ -36,6 +49,38 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     /**
+     * Gère les interactions des menus déroulants de manière générique.
+     * @param {Event} event - L'événement de clic.
+     * @param {string} filterType - Le type de filtre à mettre à jour (ex: 'presence', 'friendship').
+     * @param {object} defaultValues - Les valeurs (texte, icône) par défaut du bouton principal.
+     */
+    function handleDropdown(event, filterType, defaultValues) {
+        const button = event.target.closest('.dropdown-item');
+        if (!button) return;
+
+        const buttonText = button.textContent.trim();
+        const icon = button.querySelector("i");
+        const filterValue = button.dataset[filterType]; // Utilisation de l'attribut data-* de manière dynamique
+        const mainButton = document.querySelector(`.filter-btn[data-filter-type="${filterType}"]`);
+
+        if (filterValue === 'all') {
+            // Restaurer les valeurs par défaut
+            mainButton.querySelector('i').className = defaultValues.iconClass;
+            mainButton.childNodes[2].nodeValue = " " + defaultValues.text;
+        } else {
+            // Mettre à jour avec les valeurs du bouton sélectionné
+            if (icon) {
+                mainButton.querySelector('i').className = icon.className;
+            }
+            mainButton.childNodes[2].nodeValue = " " + buttonText;
+        }
+
+        // Mettre à jour le filtre global et appliquer les filtres
+        filters[filterType] = filterValue || 'all';
+        applyFilters();
+    }
+
+    /**
      * Applique tous les filtres actifs à la liste des invités.
      */
     function applyFilters() {
@@ -54,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
             }
-            
+
             // Filtre de présence
             if (isVisible && filters.presence !== 'all') {
                 if (presenceSwitch) {
@@ -67,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     }
                 }
             }
-            
+
             // --- NOUVEAU CODE POUR LE FILTRE D'AMITIÉ ---
             if (isVisible && filters.friendship !== 'all') {
                 const friendshipData = item.dataset.friendship || ''; // S'assure que friendshipData est une chaîne, même si l'attribut est manquant
@@ -85,70 +130,31 @@ document.addEventListener("DOMContentLoaded", function() {
     // --- Écouteurs d'événements ---
 
     // Écouteur pour la barre de recherche
-    searchInput.addEventListener('keyup', function() {
+    searchInput.addEventListener('keyup', function () {
         filters.searchTerm = this.value.toLowerCase();
         applyFilters();
     });
 
     // Écouteurs pour les boutons de présence
-    if (presenceDropdownMenu && abscentButton){
-        presenceDropdownMenu.addEventListener('click', function(event){
-            const button = event.target.closest('.dropdown-item');
-            if (button){
-                buttonText = button.textContent.trim();
-                const icon = button.querySelector("i");
-                const presenceDataValue = button.dataset.presence;
-
-                // Mettre à jour le texte et l'icône du bouton principal;
-                if (presenceDataValue === 'all') {
-                    abscentButton.querySelector('i').className = 'fa-solid fa-user me-2';
-                    abscentButton.childNodes[2].nodeValue = "Presence";
-                }else{
-                    if(icon){
-                        abscentButton.querySelector('i').className = icon.className;
-                    }
-                    abscentButton.childNodes[2].nodeValue = " " + buttonText;
-                }
-                // Mettre à jour le filtre et appliquer les filtres
-                filters.presence = presenceDataValue || 'all';
-                applyFilters();
-            }
+    if (presenceDropdownMenu && abscentButton) {
+        presenceDropdownMenu.addEventListener('click', (event) => {
+            handleDropdown(event, 'presence', defaultPresence);
 
         });
     }
-    
+
     // Écouteur pour le bouton 'table' (mis à jour pour l'exemple)
-    tableButton.addEventListener('click', function() {
+    tableButton.addEventListener('click', function () {
         const tableFilters = getDataAndFilter('table', items);
         console.log("Filtres de table disponibles :", tableFilters);
         // Vous pouvez maintenant utiliser ce Set pour créer un menu déroulant dynamique.
     });
 
-    // --- NOUVEAU CODE POUR LE DROPDOWN D'AMITIÉ ---
+
     if (friendshipDropdownMenu) {
-        friendshipDropdownMenu.addEventListener('click', function(event) {
-            const button = event.target.closest('.dropdown-item');
-            if (button) {
-                const buttonText = button.textContent.trim();
-                const icon = button.querySelector('i');
-                const friendshipDataValue = button.dataset.friendship;
-
-                // Mettre à jour le texte et l'icône du bouton principal
-                if (friendshipDataValue === 'all') {
-                    friendshipButton.querySelector('i').className = 'fa-solid fa-link me-2';
-                    friendshipButton.childNodes[2].nodeValue = "Lien d'amitié";
-                }else{
-                    if (icon) {
-                        friendshipButton.querySelector('i').className = icon.className;
-                    }
-                    friendshipButton.childNodes[2].nodeValue = " " + buttonText;
-                }
-
-                // Mettre à jour le filtre et appliquer les filtres
-                filters.friendship = friendshipDataValue || 'all';
-                applyFilters();
-            }
+        friendshipDropdownMenu.addEventListener('click', function (event) {
+            handleDropdown(event, 'friendship', defaultFriendship);
         });
     }
-    // --- FIN DU NOUVEAU CODE ---
+
 });
