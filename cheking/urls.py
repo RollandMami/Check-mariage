@@ -8,6 +8,7 @@ from .views_api import (
 )
 
 app_name = "cheking"
+
 router = DefaultRouter()
 router.register(r'lien-amitie', LienAmitieViewSet)
 router.register(r'villes', VilleViewSet)

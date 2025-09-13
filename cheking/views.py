@@ -8,8 +8,8 @@ from .models import Invite
 from django.shortcuts import get_list_or_404, get_object_or_404
 from django.db.models import Sum
 import json
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
+from django.http import JsonResponse, HttpResponse
+from django.views.decorators.http import require_POST, require_http_methods
 from django.views.decorators.csrf import csrf_exempt 
 
 # Create your views here.
@@ -151,27 +151,30 @@ def update_invite(request, code, nom):
 
     return redirect('cheking:dashboard')
 
-@require_POST
+# Utilisez require_http_methods pour accepter GET ou POST, ou GET seul
+@require_http_methods(["GET"])  
 def maj_invite(request, invite_id):
     try:
-        data = json.loads(request.body)
-        est_present = data.get('est_present')
+        # Récupère l'état de la case à cocher depuis les paramètres de requête
+        est_present_str = request.GET.get('est_present')
         
-        # Récupère l'invité ou renvoie une erreur 404
+        # Convertit la chaîne en booléen
+        if est_present_str == 'checked':
+            est_present = True
+        else:
+            est_present = False
+            
         invite = get_object_or_404(Invite, pk=invite_id)
         
-        # Met à jour le champ est_present
         invite.est_present = est_present
         invite.save()
         
-        return JsonResponse({'status': 'success'})
+        return JsonResponse({'status': 'success', 'message': 'La mise à jour a été effectuée avec succès !'})
     
-    except json.JSONDecodeError:
-        return JsonResponse({'status': 'error', 'message': 'Invalid JSON'}, status=400)
-    except Invite.DoesNotExist:
-        return JsonResponse({'status': 'error', 'message': 'Invite not found'}, status=404)
     except Exception as e:
-        return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+        # Gérer l'erreur, par exemple, en affichant un message et en redirigeant
+        print(f"Erreur lors de la mise à jour : {e}")
+        return redirect('cheking:dashboard')
 
 def dashfilter(request, filtre):
     invites = Invite.objects.filter(lien_amitie__lien=str(filtre).upper())

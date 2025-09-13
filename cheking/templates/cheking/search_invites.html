@@ -81,10 +81,11 @@
                                 {% if invite.est_present %}checked{% endif %}>
                         </div>
 
-                        <button class="btn btn-success btn-sm save-btn" 
-                                data-invite-id="{{ invite.id }}">
+                        <a href="#" class="btn btn-success btn-sm save-btn hidden" 
+                            data-invite-id="{{ invite.id }}"
+                            data-base-url="{% url 'cheking:maj_invite' invite.id %}">
                             <i class="fas fa-save me-1"></i>
-                        </button>
+                        </a>
                     </div>
                 </li>
             {% empty %}
@@ -96,5 +97,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/search_invites.js' %}"></script>
+<script src="{% static 'js/search_invites.js' %}" defer></script>
+<script src="{% static 'js/save_checked_inline.js' %}" defer></script>
 {% endblock %}
