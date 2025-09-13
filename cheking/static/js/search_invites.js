@@ -3,9 +3,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // --- Variables et sélections DOM initiales ---
     const searchInput = document.getElementById('guestSearchInput');
     const tableButton = document.getElementById('tableButton');
-    const presentButton = document.getElementById('abscentPresentButton');
-    const abscentButton = document.getElementById('abscentAbscentButton');
-    const abscentTousButton = document.getElementById('abscentTousButton');
+    const presenceDropdownMenu = document.getElementById('presenceDropdownMenu');
+    const abscentButton = document.getElementById("abscentButton");
     const items = document.querySelectorAll('#guestList li');
     
     const friendshipDropdownMenu = document.querySelector('#friendshipButton + .dropdown-menu');
@@ -92,20 +91,31 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     // Écouteurs pour les boutons de présence
-    presentButton.addEventListener('click', function() {
-        filters.presence = 'present';
-        applyFilters();
-    });
+    if (presenceDropdownMenu && abscentButton){
+        presenceDropdownMenu.addEventListener('click', function(event){
+            const button = event.target.closest('.dropdown-item');
+            if (button){
+                buttonText = button.textContent.trim();
+                const icon = button.querySelector("i");
+                const presenceDataValue = button.dataset.presence;
 
-    abscentButton.addEventListener('click', function() {
-        filters.presence = 'absent';
-        applyFilters();
-    });
+                // Mettre à jour le texte et l'icône du bouton principal;
+                if (presenceDataValue === 'all') {
+                    abscentButton.querySelector('i').className = 'fa-solid fa-user me-2';
+                    abscentButton.childNodes[2].nodeValue = "Presence";
+                }else{
+                    if(icon){
+                        abscentButton.querySelector('i').className = icon.className;
+                    }
+                    abscentButton.childNodes[2].nodeValue = " " + buttonText;
+                }
+                // Mettre à jour le filtre et appliquer les filtres
+                filters.presence = presenceDataValue || 'all';
+                applyFilters();
+            }
 
-    abscentTousButton.addEventListener('click', function() {
-        filters.presence = 'all';
-        applyFilters();
-    });
+        });
+    }
     
     // Écouteur pour le bouton 'table' (mis à jour pour l'exemple)
     tableButton.addEventListener('click', function() {
@@ -124,10 +134,15 @@ document.addEventListener("DOMContentLoaded", function() {
                 const friendshipDataValue = button.dataset.friendship;
 
                 // Mettre à jour le texte et l'icône du bouton principal
-                if (icon) {
-                    friendshipButton.querySelector('i').className = icon.className;
+                if (friendshipDataValue === 'all') {
+                    friendshipButton.querySelector('i').className = 'fa-solid fa-link me-2';
+                    friendshipButton.childNodes[2].nodeValue = "Lien d'amitié";
+                }else{
+                    if (icon) {
+                        friendshipButton.querySelector('i').className = icon.className;
+                    }
+                    friendshipButton.childNodes[2].nodeValue = " " + buttonText;
                 }
-                friendshipButton.childNodes[2].nodeValue = " " + buttonText;
 
                 // Mettre à jour le filtre et appliquer les filtres
                 filters.friendship = friendshipDataValue || 'all';

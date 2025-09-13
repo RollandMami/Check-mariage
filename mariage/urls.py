@@ -21,7 +21,7 @@ from django.views.generic import RedirectView
 urlpatterns = [
     # Redirige l'URL racine vers l'URL de l'application 'cheking'
     path('', RedirectView.as_view(url='cheking/', permanent=True)),
-    path('cheking/', include('cheking.urls')),
+    path('cheking/', include('cheking.urls', namespace='cheking')),
     path('admin/', custom_admin_site.urls),
     
 ]
