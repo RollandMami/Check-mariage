@@ -56,3 +56,59 @@
     color: #a6d9e6ff;
     background-color: rgba(0, 0, 0, 0.6);
 }
+
+/* Styles pour l'overlay de la pop-up */
+.custom-popup-overlay {
+    position: fixed; /* Position fixe par rapport à la fenêtre */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+    display: flex; /* Utilisation de flexbox pour centrer le contenu */
+    justify-content: center; /* Centrage horizontal */
+    align-items: center; /* Centrage vertical */
+    z-index: 1050; /* Doit être au-dessus de la plupart des éléments */
+    opacity: 0; /* Initialement caché */
+    visibility: hidden; /* Initialement non visible */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Animation de transition */
+}
+
+/* Style pour rendre la pop-up visible */
+.custom-popup-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Styles pour le contenu de la pop-up */
+.custom-popup-content {
+    background-color: white; /* Fond blanc */
+    padding: 2rem; /* Espacement intérieur */
+    border-radius: 8px; /* Bords arrondis */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Ombre portée */
+    min-width: 350px; /* Largeur minimale */
+    max-width: 90%; /* Largeur maximale pour les petits écrans */
+    color: #333; /* Couleur du texte */
+    transform: translateY(-20px); /* Légère translation pour l'animation */
+    transition: transform 0.3s ease; /* Animation de transition */
+}
+
+/* Animation du contenu de la pop-up quand elle est visible */
+.custom-popup-overlay.show .custom-popup-content {
+    transform: translateY(0);
+}
+
+/* Styles pour les champs de formulaire et les boutons à l'intérieur de la pop-up */
+.custom-popup-content h5 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.custom-popup-content .form-control {
+    margin-bottom: 1.5rem;
+}
+
+.custom-popup-content .btn {
+    min-width: 80px;
+}

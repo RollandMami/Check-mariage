@@ -14,8 +14,8 @@
                 <li class="list-group-item"><strong>Nombre invité :</strong> {{ invite.nombre }}</li>
                 <li class="list-group-item"><strong><i class="fas fa-check-circle"></i> Présence :</strong> {% if invite.est_present %}Oui{% else %}Non{% endif %}</li>
             </ul>
-
-            <div class="mt-4 pt-4 border-top mb-5">
+        </div>
+            <div class="mt-2 pt-4 border-top mb-5 card p-4 shadow-sm">
                 <h3 class="text-center text-secondary">Mise à jour</h3>
                 <form action="{% url 'cheking:update_invite' code=invite.invitation.code nom=invite.nom %}" method="post">
                     {% csrf_token %}
@@ -42,6 +42,6 @@
                 Aucun invité trouvé.
             </div>
             {% endif %}
-        </div>
+        
     </div>
 {% endblock %}

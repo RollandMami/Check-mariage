@@ -83,7 +83,9 @@
 
                         <a href="#" class="btn btn-success btn-sm save-btn hidden" 
                             data-invite-id="{{ invite.id }}"
-                            data-base-url="{% url 'cheking:maj_invite' invite.id %}">
+                            data-invite-number="{{ invite.nombre }}"
+                            data-base-url="{% url 'cheking:maj_invite' invite.id %}"
+                            data-update-url="{% url 'cheking:update_invite_count' invite.id %}">
                             <i class="fas fa-save me-1"></i>
                         </a>
                     </div>

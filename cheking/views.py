@@ -169,7 +169,7 @@ def maj_invite(request, invite_id):
         invite.est_present = est_present
         invite.save()
         
-        return JsonResponse({'status': 'success', 'message': 'La mise à jour a été effectuée avec succès !'})
+        return JsonResponse({'status': 'success', 'message': 'La mise à jour a été effectuée avec succès ! ✅'})
     
     except Exception as e:
         # Gérer l'erreur, par exemple, en affichant un message et en redirigeant
@@ -184,3 +184,42 @@ def dashfilter(request, filtre):
         'invites': invites,
     }
     return render(request, 'cheking/search_invites.html', context)
+
+@require_http_methods(["GET"])
+def update_invite_count(request, invite_id):
+    try:
+        # Récupère le nombre réel de présents depuis les paramètres de requête
+        real_count = request.GET.get('count')
+        
+        # Récupère l'état de la présence (True/False)
+        est_present_str = request.GET.get('est_present')
+        
+        # Vérifie si le nombre est présent et est un nombre
+        if real_count is None or not real_count.isdigit():
+            return JsonResponse({'status': 'error', 'message': 'Nombre d\'invités invalide.'}, status=400)
+        
+        # Vérifie si le paramètre de présence est présent
+        if est_present_str is None:
+            return JsonResponse({'status': 'error', 'message': 'Le statut de présence est manquant.'}, status=400)
+            
+        invite = get_object_or_404(Invite, pk=invite_id)
+        
+        # Convertit le nombre en entier et le valide
+        new_count = int(real_count)
+        
+        # S'assurer que le nouveau nombre ne dépasse pas le nombre initial d'invités
+        if new_count > invite.nombre or new_count < 0:
+            return JsonResponse({'status': 'error', 'message': 'Le nombre de présents ne peut pas dépasser le nombre d\'invités initial.'}, status=400)
+
+        # Met à jour le champ 'nombre_presents'
+        invite.nombre_presents = new_count
+        
+        # Met à jour le champ 'est_present'
+        invite.est_present = (est_present_str == 'true')
+        
+        invite.save()
+        
+        return JsonResponse({'status': 'success', 'message': 'Mise à jour de la présence et du nombre d\'invités réussie.'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': f'Erreur interne du serveur: {e}'}, status=500)
