@@ -34,14 +34,10 @@
 .hidden {
   display: none !important;
 }
-
 .settings-icon {
-    position: absolute;
-    top: 15px;
-    right: 15px;
+    /* Suppression du positionnement absolu pour le laisser dans le flux de la navbar */
     color: white;
     font-size: 1.5rem;
-    z-index: 10;
     background-color: rgba(0, 0, 0, 0.4);
     border-radius: 50%;
     width: 40px;
@@ -50,6 +46,8 @@
     justify-content: center;
     align-items: center;
     text-decoration: none;
+    /* Ajout d'une marge pour les espacer si nécessaire */
+    margin-left: 20px; 
 }
 
 .settings-icon:hover {
@@ -57,6 +55,33 @@
     background-color: rgba(0, 0, 0, 0.6);
 }
 
+.notification-icon {
+    position: relative;
+    /* S'assurer que les icônes sont de la même taille */
+    font-size: 1.5rem; 
+    color: white;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.notification-icon:hover {
+    color: #a6d9e6ff;
+}
+
+.notification-badge {
+    position: absolute;
+    top: 5px;
+    right: 0px;
+    font-size: 0.75rem;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    line-height: 1;
+    transform: translate(50%, -50%);
+}
 /* Styles pour l'overlay de la pop-up */
 .custom-popup-overlay {
     position: fixed; /* Position fixe par rapport à la fenêtre */
@@ -112,3 +137,4 @@
 .custom-popup-content .btn {
     min-width: 80px;
 }
+

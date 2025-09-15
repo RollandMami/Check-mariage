@@ -17,46 +17,66 @@
 <body>
     <header class="bg-primary text-white p-3">
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <div class="container-fluid">
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+    <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'cheking:index' %}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="{% url 'cheking:dashboard' %}">Dashboard</a>
-                        </li>                      
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                User
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Profile</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li>
-                                    <form method="post" action="{% url 'cheking:logout' %}">
-                                        {% csrf_token %}
-                                        <button type="submit" class="dropdown-item">Se déconnecter</button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </li>
-
-                        <li class="nav-item">
-                            {% if request.user.is_superuser or request.user.is_staff %}
-                            <a href="/admin/" class="settings-icon">
-                                <i class="fas fa-cog"></i>
-                            </a>
-                            {% endif %}
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'cheking:index' %}"> <i class="fas fa-home"></i>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'cheking:dashboard' %}">Dashboard</a>
+                </li>                      
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        User
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="post" action="{% url 'cheking:logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">Se déconnecter</button>
+                            </form>
                         </li>
                     </ul>
-                </div>
-            </div>
-        </nav>
+                </li>
+            </ul>
+
+            {% if request.user.is_superuser or request.user.is_staff %}
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                
+                <li class="nav-item dropdown">
+                    <a class="nav-link notification-icon" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge">3</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li class="dropdown-header">Notifications</li>
+                        <li><a class="dropdown-item" href="#">Nouvelle inscription</a></li>
+                        <li><a class="dropdown-item" href="#">Mise à jour du statut</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-center" href="#">Voir tout</a></li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item">
+                    <a href="/admin/" class="nav-link settings-icon">
+                        <i class="fas fa-cog"></i>
+                    </a>
+                </li>
+                
+            </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+
     </header>
     {% block content%}
     {% endblock %}
