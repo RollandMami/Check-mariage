@@ -63,13 +63,12 @@
             </div>
         </div>
     </div>
-
+    
     <div class="row d-flex justify-content-center mt-4 mb-3">
         <div class="col-12 d-flex justify-content-evenly">
             <button type="button" class="btn btn-primary btn-lg rounded-pill" data-bs-toggle="modal" data-bs-target="#qrScannerModal">
                 <i class="fas fa-qrcode me-2"></i>Scanner un QR Code
             </button>
-
             <div class="modal fade" id="qrScannerModal" tabindex="-1" aria-labelledby="qrScannerModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -87,14 +86,15 @@
                     </div>
                 </div>
             </div>
-                <a href="{% url 'cheking:search' %}" class="btn btn-outline-secondary btn-lg rounded-pill" style="min-width: 45%;">
-                    <i class="fas fa-search me-2"></i>Rechercher un invité
-                </a>
-            </div>
+            <a href="{% url 'cheking:search' %}" class="btn btn-outline-secondary btn-lg rounded-pill" style="min-width: 45%;">
+                <i class="fas fa-search me-2"></i>Rechercher un invité
+            </a>
+        </div>
     </div>
 </div>
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/dashboard.js' %}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}

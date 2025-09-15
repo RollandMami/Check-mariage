@@ -1,15 +1,26 @@
+/* Styles généraux pour tous les appareils (ordinateurs, tablettes) */
 body {
-    background-color: #A2C4F7FF;
+    background-image: url("../images/login.png");
+    background-color: #43678E; /* Cette couleur agira comme un fond de secours */
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image: url("{% static 'images/bg_login.png' %}"); /* Ajustez le chemin */
-    background-size: cover;
+    background-size: cover; /* Cette propriété est la clé pour résoudre le problème */
     background-position: center;
+    background-repeat: no-repeat;
     color: #495057;
+}
+
+/* --- */
+/* Styles spécifiques pour les téléphones (largeur d'écran max. de 600px) */
+@media (max-width: 600px) {
+    body {
+        background-size: 140%; /* L'image s'agrandit pour "remplir" plus l'écran */
+        background-position: center top; /* L'image se déplace vers le haut */
+    }
 }
 .login-card {
     background-color: rgba(255, 255, 255, 0.9);
