@@ -34,4 +34,7 @@ urlpatterns = [
     path('maj_invite/<int:invite_id>/', views.maj_invite, name='maj_invite'),
     path('dashfilter/<str:filtre>/',views.dashfilter, name="dashfilter"),
     path('update_invite_count/<int:invite_id>/', views.update_invite_count, name="update_invite_count"),
+    path('profile/', views.user_profile_view, name='profile'),
+    path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
+    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),
 ]

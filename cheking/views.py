@@ -187,6 +187,7 @@ def dashfilter(request, filtre):
 
 @require_http_methods(["GET"])
 def update_invite_count(request, invite_id):
+
     try:
         # Récupère le nombre réel de présents depuis les paramètres de requête
         real_count = request.GET.get('count')
@@ -223,3 +224,40 @@ def update_invite_count(request, invite_id):
 
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': f'Erreur interne du serveur: {e}'}, status=500)
+    
+@login_required
+def user_profile_view(request):
+    user = request.user
+    
+    # Gère les requêtes POST pour la mise à jour du profil
+    if request.method == 'POST':
+        # Récupère les données du formulaire
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        email = request.POST.get('email')
+        
+        # Met à jour les champs de l'utilisateur
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email = email
+        user.save() # Enregistre les modifications dans la base de données
+        
+        # Ajoute un message de succès
+        messages.success(request, 'Votre profil a été mis à jour avec succès !')
+        
+        # Redirige vers la même page pour afficher les modifications
+        return redirect('cheking:profile')
+
+    # Gère les requêtes GET (affichage initial du formulaire)
+    context = {
+        'first_name' : user.first_name,
+        'last_name' : user.last_name,
+        'email' : user.email
+    }
+    
+    return render(request, "cheking/profile_view.html", context)
+
+
+
+
+
