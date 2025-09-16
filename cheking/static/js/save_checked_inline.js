@@ -70,6 +70,10 @@ document.addEventListener("DOMContentLoaded", function () {
         const updateUrl = saveButton.dataset.updateUrl;
         const isPresent = saveButton.closest(".guest-controls").querySelector(".presence-switch").checked;
 
+        // On récupère les nouvelles données ajoutées au bouton de sauvegarde
+        const guestName = saveButton.dataset.guestName;
+        const tableName = saveButton.dataset.tableName;
+
         // On vérifie si une pop-up existe déjà pour éviter les doublons
         const existingPopup = document.querySelector(".custom-popup-overlay");
         if (existingPopup) {
@@ -79,11 +83,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const popupHTML = `
             <div class="custom-popup-overlay" data-invite-id="${inviteId}" data-is-present="${isPresent}">
                 <div class="custom-popup-content">
-                    <h5>Nombre réel de présents :</h5>
+                    <h5 class="popup-title">${guestName} - ${tableName}</h5>
+                    <hr>
+                    <p class="popup-subtitle">Nombre réel de présents :</p>
                     <input type="number" class="form-control invite-count-input" value="${inviteNumber}" min="0" max="${inviteNumber}" data-update-url="${updateUrl}">
                     <div class="d-flex justify-content-end mt-3">
-                        <button class="btn btn-secondary me-2 cancel-count-btn">Discard</button>
-                        <button class="btn btn-primary save-count-btn">Save</button>
+                        <button class="btn btn-secondary me-2 cancel-count-btn">Annuler</button>
+                        <button class="btn btn-primary save-count-btn">Sauvegarder</button>
                     </div>
                 </div>
             </div>

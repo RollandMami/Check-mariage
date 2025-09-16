@@ -26,6 +26,7 @@ document.addEventListener("DOMContentLoaded", function () {
         searchTerm: '',
         presence: 'all', // 'all', 'present', 'absent'
         friendship: 'all', // 'all', 'MARIEE', 'MARIE', 'AMIS - COLLEGUES', 'EGLISE', 'STAFF - LOGISTICS'
+        table: 'all' // Nouveau filtre pour les tables
     };
 
 
@@ -41,7 +42,8 @@ document.addEventListener("DOMContentLoaded", function () {
         const uniqueValues = new Set(['Tous']);
         listToFilter.forEach(item => {
             const data = item.dataset[filterName];
-            if (data && typeof data === 'string') {
+            if (data && typeof data === 'string' && !item.classList.contains('hidden')) {
+                // IMPORTANT: On ne récupère que les données des items qui ne sont pas "hidden"
                 uniqueValues.add(data.trim());
             }
         });
@@ -88,8 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let isVisible = true;
             const guestNameElement = item.querySelector('.guest-name');
             const presenceSwitch = item.querySelector(".presence-switch");
-            const friendshipData = item.dataset.friendship;
-
+            
             // Filtre de recherche
             if (filters.searchTerm) {
                 if (guestNameElement) {
@@ -113,14 +114,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             }
 
-            // --- NOUVEAU CODE POUR LE FILTRE D'AMITIÉ ---
+            // Filtre d'amitié
             if (isVisible && filters.friendship !== 'all') {
-                const friendshipData = item.dataset.friendship || ''; // S'assure que friendshipData est une chaîne, même si l'attribut est manquant
+                const friendshipData = item.dataset.friendship || '';
                 if (friendshipData !== filters.friendship) {
                     isVisible = false;
                 }
             }
-            // --- FIN DU NOUVEAU CODE ---
+            
+            // Filtre de table (cumulatif)
+            if (isVisible && filters.table !== 'all') {
+                const tableData = item.dataset.table || '';
+                if (tableData !== filters.table) {
+                    isVisible = false;
+                }
+            }
 
             // Mettre à jour la visibilité de l'élément
             item.classList.toggle('hidden', !isVisible);
@@ -139,22 +147,88 @@ document.addEventListener("DOMContentLoaded", function () {
     if (presenceDropdownMenu && abscentButton) {
         presenceDropdownMenu.addEventListener('click', (event) => {
             handleDropdown(event, 'presence', defaultPresence);
-
         });
     }
 
-    // Écouteur pour le bouton 'table' (mis à jour pour l'exemple)
+    // Écouteur pour le bouton 'table' qui affiche la pop-up de filtre
     tableButton.addEventListener('click', function () {
-        const tableFilters = getDataAndFilter('table', items);
-        console.log("Filtres de table disponibles :", tableFilters);
-        // Vous pouvez maintenant utiliser ce Set pour créer un menu déroulant dynamique.
+        // IMPORTANT : On passe seulement les items qui sont actuellement visibles
+        const visibleItems = document.querySelectorAll('#guestList li:not(.hidden)');
+        const tableFilters = getDataAndFilter('table', visibleItems);
+        
+        // Supprimez les pop-ups existantes pour éviter les doublons
+        const existingPopup = document.querySelector(".custom-popup-overlay");
+        if (existingPopup) {
+            existingPopup.remove();
+        }
+
+        let tableListHTML = '';
+        tableFilters.forEach(table => {
+            // Mettez à jour le data-table-filter pour correspondre au filtre que vous voulez appliquer
+            const isActive = filters.table === table;
+            const activeClass = isActive ? 'active' : '';
+            tableListHTML += `<li class="list-group-item table-item ${activeClass}" data-table-filter="${table}">${table}</li>`;
+        });
+
+        const popupHTML = `
+            <div class="custom-popup-overlay">
+                <div class="custom-popup-content">
+                    <h5 class="popup-title">Filtrer par table :</h5>
+                    <hr>
+                    <ul class="list-group table-list-container">
+                        ${tableListHTML}
+                    </ul>
+                    <div class="d-flex justify-content-end mt-3">
+                        <button class="btn btn-secondary me-2 cancel-filter-btn">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', popupHTML);
+
+        // Ajoute la classe 'show' pour déclencher l'affichage et les animations
+        setTimeout(() => {
+            const newPopup = document.querySelector(".custom-popup-overlay");
+            if (newPopup) {
+                newPopup.classList.add("show");
+            }
+        }, 10);
     });
 
-
+    // Écouteurs pour le filtre 'friendship'
     if (friendshipDropdownMenu) {
         friendshipDropdownMenu.addEventListener('click', function (event) {
             handleDropdown(event, 'friendship', defaultFriendship);
         });
     }
+
+    // --- LOGIQUE POUR LES CLICS SUR LA POP-UP DE TABLES ---
+    document.addEventListener("click", function(event) {
+        // Gère le clic sur un nom de table dans la pop-up
+        if (event.target.classList.contains("table-item")) {
+            const selectedTable = event.target.dataset.tableFilter;
+            
+            // Mise à jour du filtre de table global
+            // Si l'utilisateur clique sur "Tous" ou la table déjà sélectionnée, on désactive le filtre
+            filters.table = (selectedTable === 'Tous' || filters.table === selectedTable) ? 'all' : selectedTable;
+
+            // Applique tous les filtres, y compris le nouveau filtre de table
+            applyFilters();
+            
+            // Fermez la pop-up après la sélection
+            const popup = event.target.closest(".custom-popup-overlay");
+            if (popup) {
+                popup.remove();
+            }
+        }
+        
+        // Gère le clic sur le bouton "Fermer"
+        if (event.target.classList.contains("cancel-filter-btn")) {
+            const popup = event.target.closest(".custom-popup-overlay");
+            if (popup) {
+                popup.remove();
+            }
+        }
+    });
 
 });
