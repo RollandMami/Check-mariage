@@ -36,6 +36,12 @@ class QrAdmin(ImportExportMixin, admin.ModelAdmin):
     search_fields = ("code",)
     list_filter = ("code",)
 
+class TableAdmin(ImportExportMixin, admin.ModelAdmin):
+    list_display=("id", "nom")
+    search_fields=("nom",)
+    list_filter=("nom",)
+
+
 class CustomAdminSite(admin.AdminSite):
     site_url = '/cheking/dashboard/'
     
@@ -45,7 +51,7 @@ custom_admin_site.register(Ville)
 custom_admin_site.register(Quartier)
 custom_admin_site.register(Invite, InviteAdmin)
 custom_admin_site.register(QrCode, QrAdmin)
-custom_admin_site.register(Tables)
+custom_admin_site.register(Tables, TableAdmin)
 custom_admin_site.register(LienAmitie)
 custom_admin_site.register(User, UserAdmin)
 custom_admin_site.register(Group, GroupAdmin)
